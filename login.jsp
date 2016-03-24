@@ -31,7 +31,7 @@
 	        try{
 		        //load and register the driver
         		Class drvClass = Class.forName(driverName); 
-	        	DriverManager.registerDriver((Driver) drvClass.newInstance());
+	        	//DriverManager.registerDriver((Driver) drvClass.newInstance());
         	}
 	        catch(Exception ex){
 		        out.println("<hr>" + ex.getMessage() + "<hr>");
@@ -40,7 +40,7 @@
         	try{
 	        	//establish the connection 
 		        conn = DriverManager.getConnection(dbstring,"yourui","guoyr19960217");
-        		conn.setAutoCommit(false);
+        		//conn.setAutoCommit(false);
                 
 	        }
         	catch(Exception ex){
@@ -52,7 +52,7 @@
 	        //select the user table from the underlying db and validate the user name and password
         	Statement stmt = null;
 	        //ResultSet rset = null;
-        	String sql = "select PWD from login where id = '"+userName+"'";
+        	String sql = "SELECT PWD FROM login WHERE id = '"+userName+"'";
             String test = "select * from login";
             String truepwd = "";
 	        out.println(sql);
@@ -62,10 +62,12 @@
                 ResultSet.CONCUR_UPDATABLE);
 
 		        ResultSet rset = stmt.executeQuery(sql);
+                out.println("<hr>rset is "+rset+"<hr>");
 
-                while(rset != null && rset.next()){
-                    truepwd = (rset.getString(1)).trim();
-                    out.println("<hr>something inside<hr>");
+
+                if(!rset.next()){
+                    //truepwd = (rset.getString(1)).trim();
+                    out.println("<hr>nothing inside<hr>");
                 }
                 //rset = stmt.executeQuery(test);
         	}
